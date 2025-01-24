@@ -41,18 +41,18 @@ if __name__ == '__main__':
     download_parser.set_defaults(func=run_download_database)
 
     contamination_parser = subparsers.add_parser('contamination', help='Detect and remove contamination in viral contigs.')
-    contamination_parser.add_argument('--input', type=str, help='The path to the input fasta file.')
-    contamination_parser.add_argument('--db', type=str, help='The path to the database.')
-    contamination_parser.add_argument('--output', type=str, help='Output directory.')
-    contamination_parser.add_argument('--threads', type=int, help='Number of threads.')
+    contamination_parser.add_argument('--input', '-i', type=str, help='The path to the input fasta file.')
+    contamination_parser.add_argument('--db', '-d', type=str, help='The path to the database.')
+    contamination_parser.add_argument('--output', '-o', type=str, help='Output directory.')
+    contamination_parser.add_argument('--threads', '-t', type=int, help='Number of threads.')
     contamination_parser.set_defaults(func=run_contamination)
 
     completeness_parser = subparsers.add_parser('completeness', help='Evaluate the completeness of viral contigs.')
-    completeness_parser.add_argument('--input', type=str, help='The path to the input fasta file.')
-    completeness_parser.add_argument('--db', type=str, help='The path to the database.')
-    completeness_parser.add_argument('--output', type=str, help='Output directory.')
-    completeness_parser.add_argument('--threads', type=int, help='Number of threads.')
-    completeness_parser.add_argument('--bin', action='store_true', help='Evaluate the completeness of bins.')
+    completeness_parser.add_argument('--input', '-i', type=str, help='The path to the input fasta file.')
+    completeness_parser.add_argument('--db', '-d', type=str, help='The path to the database.')
+    completeness_parser.add_argument('--output', '-o', type=str, help='Output directory.')
+    completeness_parser.add_argument('--threads', '-t', type=int, help='Number of threads.')
+    completeness_parser.add_argument('--bin', '-b', action='store_true', help='Evaluate the completeness of bins.')
     completeness_parser.set_defaults(func=run_completeness)
 
 
