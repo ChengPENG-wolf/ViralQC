@@ -1,3 +1,5 @@
+<img src="logo.png" alt="image" width="800" height=auto>
+
 ## The official implementation of [ViralQC: A Tool for Assessing Completeness and Contamination of Predicted Viral Contigs]
 
 ![GitHub License](https://img.shields.io/github/license/ChengPENG-wolf/ViralQC)
