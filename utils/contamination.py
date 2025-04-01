@@ -379,9 +379,9 @@ def write_result(input_pth, output_pth):
                 virus_length += region['length']
             else:
                 non_virus_length += region['length']
-            region_types += f'{region["predict"]},'
-            region_coords_bp += f'{region["start"]}-{region["end"]},'
-        f.write(f'{contig_id},{contig_length},{total_genes},{virus_genes},{non_virus_genes},{virus_length},{non_virus_length},{region_types[-1]},{region_coords_bp[-1]}\n')
+            region_types += f'{region["predict"]};'
+            region_coords_bp += f'{region["start"]}-{region["end"]};'
+        f.write(f'{contig_id},{contig_length},{total_genes},{virus_genes},{non_virus_genes},{virus_length},{non_virus_length},{region_types},{region_coords_bp}\n')
     f.close()
 
     decontaminated_records = []
