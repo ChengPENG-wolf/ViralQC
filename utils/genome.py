@@ -120,14 +120,15 @@ class GenomeStructure:
         self.unique_prots = self.unique_prots1 | self.unique_prots2
 
         # find the first and the last common proteins in dereplicated_protein_info1
-        first = None
-        last = None
+        first = -1
+        last = -1
 
         for i, protein in enumerate(dereplicated_protein_info1):
             if protein[1] in self.common_proteins:
                 last = i
-                if not first:
+                if first == -1:
                     first = i
+                    
         dereplicated_protein_info1 = dereplicated_protein_info1[first:last+1]
         self.genome1 = Genome(query_id, dereplicated_protein_info1, protein_set1, duplication_counts1)
         self.events['outlier'] += len(query_protein_info) - len(dereplicated_protein_info1)
