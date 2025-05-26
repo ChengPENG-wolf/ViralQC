@@ -9,6 +9,8 @@
 - [1. Introduction](#1-introduction)
 - [2. Setup Environment](#2-setup-environment)
 - [3. Quick Start](#3-quick-start)
+- [4. Citation](#5-citation)
+- [5. Contact](#6-contact)
 
 ## 1. Overview
 
@@ -62,3 +64,17 @@ python viralqc.py completeness [-i INPUT_FA] [-o OUTPUT_PTH] [-d DATABASE_PATH] 
                         Run in bin mode (Completeness estimation)
 ```
 
+## 4. Citation
+
+```
+@article{peng2025viralqc,
+  title={ViralQC: A Tool for Assessing Completeness and Contamination of Predicted Viral Contigs},
+  author={Peng, Cheng and Shang, Jiayu and Guan, Jiaojiao and Sun, Yanni},
+  journal={arXiv preprint arXiv:2504.05790},
+  year={2025}
+}
+```
+
+## 5. Contact
+
+If you have any questions, please post an issue or email us: cpeng29-c@my.cityu.edu.hk
