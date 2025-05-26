@@ -34,12 +34,31 @@ python viralqc.py download_database --db /path/to/db
 ## 3. Quick start
 
 **Run Contamination Detection:**
+
 *Note*: The Contamination Detection module should be run on GPUs.
+
 ```
 python viralqc.py contamination [-i INPUT_FA] [-o OUTPUT_PTH] [-d DATABASE_PATH] [-t THREADS]
 ```
 
 **Run Completeness Estimation:**
+
 ```
 python viralqc.py completeness [-i INPUT_FA] [-o OUTPUT_PTH] [-d DATABASE_PATH] [-t THREADS]
 ```
+
+**Options**
+
+```
+  -i INPUT_FA
+                        The name of your input file (FASTA format)
+  -o OUTPUT_PTH
+                        The path of the output directory
+  -d DATABASE
+                        Model directory
+  -t THREADS
+                        Number of threads
+  -b BIN
+                        Run in bin mode (Completeness estimation)
+```
+
