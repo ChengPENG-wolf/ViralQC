@@ -358,7 +358,7 @@ def write_result(input_pth, output_pth):
     result = pkl.load(open(f"{temp_pth}/contamination_result.pkl", 'rb'))
 
     f = open(f"{output_pth}/contamination_result.csv", 'w')
-    f.write(f'contig_id,contig_length,total_genes,virus_genes,non-virus_genes,virus_length,non-virus_length,region_types,region_coords_bp\n')
+    f.write(f'seq_name,seq_length,total_genes,virus_genes,non-virus_genes,virus_length,non-virus_length,region_types,region_coords_bp\n')
 
     for contig_id in result:
         if len(result[contig_id]) <= 1:
