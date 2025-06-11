@@ -8,12 +8,23 @@ import time
 import os
 
 
-def get_query_length(fasta_pth, out_pth):
+def get_query_length_dtr(fasta_pth, out_pth, min_length=21):
     temp_pth = os.path.join(out_pth, 'midfolder')
     query_length = {}
+    query_dtr = {}
     for record in SeqIO.parse(fasta_pth, 'fasta'):
         query_length[record.id] = len(record.seq)
-    pkl.dump(query_length, open(f'{temp_pth}/query_seq_length.pkl', 'wb'))
+
+        seq = str(record.seq).casefold()
+        substring = seq.casefold()[0:min_length]
+        pos = seq.casefold().rfind(substring)
+        if pos < len(seq) / 2:
+            query_dtr[record.id] = False
+        else:
+            substring = seq.casefold()[pos:]
+            query_dtr[record.id] = (seq.casefold()[:len(substring)] == substring)
+    pkl.dump(query_length, open(os.path.join(temp_pth, 'query_seq_length.pkl'), 'wb'))
+    pkl.dump(query_dtr, open(os.path.join(temp_pth, 'query_dtr.pkl'), 'wb'))
 
 
 def get_query_length_bin(fasta_pth, out_pth):
@@ -411,6 +422,7 @@ def write_result(database_pth, out_pth):
     temp_pth = os.path.join(out_pth, 'midfolder')
     result_info = pkl.load(open(f'{temp_pth}/result_info.pkl', 'rb'))
     query_seq_len = pkl.load(open(f'{temp_pth}/query_seq_length.pkl', 'rb'))
+    query_dtr = pkl.load(open(f'{temp_pth}/query_dtr.pkl', 'rb'))
     reference_genome_length = pkl.load(open(f'{database_pth}/reference_genome_length.pkl', 'rb'))
     reference_genome_tax = pkl.load(open(f'{database_pth}/reference_genome_tax.pkl', 'rb'))
     query_seq_info = pkl.load(open(f'{temp_pth}/query_seq_info.pkl', 'rb'))
@@ -419,7 +431,7 @@ def write_result(database_pth, out_pth):
     num_cluster = len(pkl.load(open(f'{database_pth}/reference_protein_cluster2id.pkl', 'rb')))
 
     f = open(f'{out_pth}/completeness_result.csv', 'w')
-    f.write('contig_id,contig_length,expected_length,completeness,confidence,significance_score,ref_id,ref_taxonomy,match,mutation,insertion,'
+    f.write('contig_id,contig_length,dtr,expected_length,completeness,confidence,significance_score,ref_id,ref_taxonomy,match,mutation,insertion,'
             'deletion,translocation,duplication,outlier\n')
 
     for query in result_info:
@@ -447,7 +459,7 @@ def write_result(database_pth, out_pth):
         sig, confidence = compute_confidence(num_ref, num_cluster, num_singleton, records[0][4], records[0][1],
                                              records[0][3])
 
-        f.write(f'{query},{query_seq_len[query]},{expect_genome_length},{completeness},{confidence},{sig},{best_alignment},'
+        f.write(f'{query},{query_seq_len[query]},{query_dtr[query]},{expect_genome_length},{completeness},{confidence},{sig},{best_alignment},'
             f'{reference_genome_tax[best_alignment]},{records[0][4]},{records[0][5]["mutation"]},'
             f'{records[0][5]["insertion"]},{records[0][5]["deletion"]},{records[0][5]["translocation"]},'
             f'{records[0][5]["duplication"]},{records[0][5]["outlier"]}\n')
@@ -518,7 +530,7 @@ def completeness(input, db, output, threads, bin):
         compute_sv_bin(db, output)
         write_result_bin(db, output)
     else:
-        get_query_length(input, output)
+        get_query_length_dtr(input, output)
         protein_prediction_and_alignment(db, input, output, threads)
         parse_alignment_result(db, output)
         compute_bit_aai_score(output)
