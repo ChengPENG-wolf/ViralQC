@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/2276d045-a450-43c9-8d17-33eb5e0c69ec)<img src="logo.png" alt="image" width="800" height=auto>
+<img src="logo.png" alt="image" width="800" height=auto>
 
 ## The official implementation of [ViralQC: A Tool for Assessing Completeness and Contamination of Predicted Viral Contigs]
 
