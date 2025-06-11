@@ -96,18 +96,19 @@ This FASTA file contains all the virus sequences after removing contamination.
 #### 3. `OUTPUT_PTH`/completeness_result.csv:
 
 ```
-seq_name   num_protein   seq_len   expected_length   completeness   confidence   significance   ref_id        ref_taxonomy                                              match   mutation   insertion   deletion   translocation   duplication   outlier
---------   -----------   -------   ---------------   ------------   ----------   ------------   -----------   -------------------------------------------------------   -----   --------   ---------   --------   -------------   -----------   -------
-contig_1   55            31816     11506             28.5           high         19.21          NC_019529.1   Duplodnaviria;...;Demerecviridae;...;Vibrio phage pVp-1   11      8          3           5          0               0             33
-contig_2   15            11324     12754             88.8           high         17.82          NC_076111.1   Varidnaviria;...;...;Terrapene box turtle adintovirus     6       1          3           1          2               1             6
+seq_name   seq_len   num_protein   dtr     expected_length   completeness   confidence   significance   ref_id        ref_taxonomy                                              match   mutation   insertion   deletion   translocation   duplication   outlier
+--------   -------   -----------   -----   ---------------   ------------   ----------   ------------   -----------   -------------------------------------------------------   -----   --------   ---------   --------   -------------   -----------   -------
+contig_1   31816     55            False   111506            28.5           high         19.21          NC_019529.1   Duplodnaviria;...;Demerecviridae;...;Vibrio phage pVp-1   11      8          3           5          0               0             33
+contig_2   11324     15            False   12754             88.8           high         17.82          NC_076111.1   Varidnaviria;...;...;Terrapene box turtle adintovirus     6       1          3           1          2               1             6
 …
 ```
 
 This tabular file lists only the inputs with contamination:
 
 - `seq_name`: The identifier of the sequence in the input FASTA file.
-- `num_protein`: The number of proteins in the sequence.
 - `seq_len`: The length of the sequence.
+- `num_protein`: The number of proteins in the sequence.
+- `dtr`: Whether the sequence contains direct terminal repeat.
 - `expected_length`: The expected length of its complete genome (bp).
 - `completeness`: The completeness of the sequence (%).
 - `confidence`: Indicate how reliable the prediction result is based on the significance score.
