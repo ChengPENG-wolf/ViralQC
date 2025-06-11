@@ -86,12 +86,41 @@ This tabular file lists only the inputs with contamination:
 - `non-virus_genes`: The number of non-virus genes in the sequence.
 - `virus_length`: The Length of virus regions (bp).
 - `virus_length`: The Length of non-virus regions (bp).
-- `region_types`: The Type of regions (virus or non-virus) in the sequence (seperated by `;`).
-- `region_coords_bp`: The start and end coordinates (bp) for each region in the sequence. The coordinates correspond to the order of region_types (seperated by `;`).
+- `region_types`: The Type of regions (virus or non-virus) in the sequence (separated by `;`).
+- `region_coords_bp`: The start and end coordinates (bp) for each region in the sequence. The coordinates correspond to the order of region_types (separated by `;`).
 
 #### 2. `OUTPUT_PTH`/extracted_virus.fasta:
 
 This FASTA file contains all the virus sequences after removing contamination.
+
+#### 3. `OUTPUT_PTH`/completeness_result.csv:
+
+```
+seq_name   num_protein   seq_len   expected_length   completeness   confidence   significance   ref_id        ref_taxonomy                                              match   mutation   insertion   deletion   translocation   duplication   outlier
+--------   -----------   -------   ---------------   ------------   ----------   ------------   -----------   -------------------------------------------------------   -----   --------   ---------   --------   -------------   -----------   -------
+contig_1   55            31816     11506             28.5           high         19.21          NC_019529.1   Duplodnaviria;...;Demerecviridae;...;Vibrio phage pVp-1   11      8          3           5          0               0             33
+contig_2   15            11324     12754             88.8           high         17.82          NC_076111.1   Varidnaviria;...;...;Terrapene box turtle adintovirus     6       1          3           1          2               1             6
+…
+```
+
+This tabular file lists only the inputs with contamination:
+
+- `seq_name`: The identifier of the sequence in the input FASTA file.
+- `num_protein`: The number of proteins in the sequence.
+- `seq_len`: The length of the sequence.
+- `expected_length`: The expected length of its complete genome (bp).
+- `completeness`: The completeness of the sequence (%).
+- `confidence`: Indicate how reliable the prediction result is based on the significance score.
+- `significance`: A score indicating the statistical significance of the match between the sequence and the reference genome. A score of 5 corresponds to an e-value of 1e-5.
+- `ref_id`: The identifier of the reference genome (e.g., GenBank accession number) that the sequence most closely matches.
+- `ref_taxonomy`: The taxonomy lineage of the reference genome.
+- `match`: The number of shared proteins.
+- `mutation`: The number of proteins that change their homologous family due to the accumulation of nucleotide variations.
+- `insertion`: The number of acquisitions of external proteins.
+- `deletion`: The number of losses of proteins.
+- `translocation`: The number of rearrangements within the genome that change the proteins' positions.
+- `duplication`: The number of proteins with more than one copy.
+- `outlier`: The number of proteins out of the aligned region.
 
 ## 5. Citation
 
