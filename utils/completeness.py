@@ -431,7 +431,7 @@ def write_result(database_pth, out_pth):
     num_cluster = len(pkl.load(open(f'{database_pth}/reference_protein_cluster2id.pkl', 'rb')))
 
     f = open(f'{out_pth}/completeness_result.csv', 'w')
-    f.write('contig_id,contig_length,dtr,expected_length,completeness,confidence,significance_score,ref_id,ref_taxonomy,match,mutation,insertion,'
+    f.write('seq_name,seq_length,num_protein,dtr,expected_length,completeness,confidence,significance_score,ref_id,ref_taxonomy,match,mutation,insertion,'
             'deletion,translocation,duplication,outlier\n')
 
     for query in result_info:
@@ -459,7 +459,7 @@ def write_result(database_pth, out_pth):
         sig, confidence = compute_confidence(num_ref, num_cluster, num_singleton, records[0][4], records[0][1],
                                              records[0][3])
 
-        f.write(f'{query},{query_seq_len[query]},{query_dtr[query]},{expect_genome_length},{completeness},{confidence},{sig},{best_alignment},'
+        f.write(f'{query},{query_seq_len[query]},{records[0][1]},{query_dtr[query]},{expect_genome_length},{completeness},{confidence},{sig},{best_alignment},'
             f'{reference_genome_tax[best_alignment]},{records[0][4]},{records[0][5]["mutation"]},'
             f'{records[0][5]["insertion"]},{records[0][5]["deletion"]},{records[0][5]["translocation"]},'
             f'{records[0][5]["duplication"]},{records[0][5]["outlier"]}\n')
@@ -479,8 +479,8 @@ def write_result_bin(database_pth, out_pth):
     num_cluster = len(pkl.load(open(f'{database_pth}/reference_protein_cluster2id.pkl', 'rb')))
 
     f = open(f'{out_pth}/completeness_result.csv', 'w')
-    f.write('contig_id,contig_length,expected_length,completeness,confidence,significance_score,ref_id,ref_taxonomy,match,mutation,insertion,'
-            'deletion,translocation,duplication,outlier\n')
+    f.write('seq_name,seq_length,num_protein,expected_length,completeness,confidence,significance_score,ref_id,ref_taxonomy,match,mutation,insertion,'
+            'deletion,duplication,outlier\n')
 
     for query in result_info:
         records = result_info[query]
@@ -507,9 +507,9 @@ def write_result_bin(database_pth, out_pth):
         sig, confidence = compute_confidence(num_ref, num_cluster, num_singleton, records[0][4], records[0][1],
                                              records[0][3])
 
-        f.write(f'{query},{query_seq_len[query]},{expect_genome_length},{completeness},{confidence},{sig},{best_alignment},'
+        f.write(f'{query},{query_seq_len[query]},{records[0][1]},{expect_genome_length},{completeness},{confidence},{sig},{best_alignment},'
             f'{reference_genome_tax[best_alignment]},{records[0][4]},{records[0][5]["mutation"]},'
-            f'{records[0][5]["insertion"]},{records[0][5]["deletion"]},{records[0][5]["translocation"]},'
+            f'{records[0][5]["insertion"]},{records[0][5]["deletion"]},'
             f'{records[0][5]["duplication"]},{records[0][5]["outlier"]}\n')
 
     f.close()
