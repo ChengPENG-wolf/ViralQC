@@ -1,4 +1,4 @@
-<img src="logo.png" alt="image" width="800" height=auto>
+![image](https://github.com/user-attachments/assets/2276d045-a450-43c9-8d17-33eb5e0c69ec)<img src="logo.png" alt="image" width="800" height=auto>
 
 ## The official implementation of [ViralQC: A Tool for Assessing Completeness and Contamination of Predicted Viral Contigs]
 
@@ -9,8 +9,9 @@
 - [1. Introduction](#1-introduction)
 - [2. Setup Environment](#2-setup-environment)
 - [3. Quick Start](#3-quick-start)
-- [4. Citation](#5-citation)
-- [5. Contact](#6-contact)
+- [4. Output explanation](#4-output-explanation)
+- [5. Citation](#5-citation)
+- [6. Contact](#6-contact)
 
 ## 1. Overview
 
@@ -64,7 +65,35 @@ python viralqc.py completeness [-i INPUT_FA] [-o OUTPUT_PTH] [-d DATABASE_PATH] 
                         Run in bin mode (Completeness estimation)
 ```
 
-## 4. Citation
+## 4. Output explanation
+
+#### 1. `OUTPUT_PTH`/contamination_result.csv:
+
+```
+seq_name   seq_len   total_genes   virus_genes   non-virus_genes   virus_length   non-virus_length   region_types       region_coords_bp
+--------   -------   -----------   -----------   ---------------   ------------   ----------------   ----------------   ------------------
+contig_1   20865     44            32            5                 14196          6669               non-virus;virus;   1-6669;6670-20865;
+contig_2   11336     16            10            4                 9881           1455               virus;non-virus;   1-9881;9882-11336;
+…
+```
+
+This tabular file lists only the inputs with contamination:
+
+- `seq_name`: The identifier of the sequence in the input FASTA file.
+- `seq_len`: The length of the sequence.
+- `total_genes`: The total number of genes in the sequence.
+- `virus_genes`: The number of virus genes in the sequence.
+- `non-virus_genes`: The number of non-virus genes in the sequence.
+- `virus_length`: The Length of virus regions (bp).
+- `virus_length`: The Length of non-virus regions (bp).
+- `region_types`: The Type of regions (virus or non-virus) in the sequence (seperated by `;`).
+- `region_coords_bp`: The start and end coordinates (bp) for each region in the sequence. The coordinates correspond to the order of region_types.
+
+#### 2. `OUTPUT_PTH`/extracted_virus.fasta:
+
+This FASTA file contains all the virus sequences after removing contamination.
+
+## 5. Citation
 
 ```
 @article{peng2025viralqc,
@@ -75,6 +104,6 @@ python viralqc.py completeness [-i INPUT_FA] [-o OUTPUT_PTH] [-d DATABASE_PATH] 
 }
 ```
 
-## 5. Contact
+## 6. Contact
 
 If you have any questions, please post an issue or email us: cpeng29-c@my.cityu.edu.hk
