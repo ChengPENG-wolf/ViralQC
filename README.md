@@ -87,7 +87,7 @@ This tabular file lists only the inputs with contamination:
 - `virus_length`: The Length of virus regions (bp).
 - `virus_length`: The Length of non-virus regions (bp).
 - `region_types`: The Type of regions (virus or non-virus) in the sequence (seperated by `;`).
-- `region_coords_bp`: The start and end coordinates (bp) for each region in the sequence. The coordinates correspond to the order of region_types.
+- `region_coords_bp`: The start and end coordinates (bp) for each region in the sequence. The coordinates correspond to the order of region_types (seperated by `;`).
 
 #### 2. `OUTPUT_PTH`/extracted_virus.fasta:
 
