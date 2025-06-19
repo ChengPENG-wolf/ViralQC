@@ -32,6 +32,8 @@ conda activate viralqc
 
 # download and setup the database
 python viralqc.py download_database --db /path/to/db
+# manually download through Baidu Disk
+https://pan.baidu.com/s/19C1EmYJfu3K3jc9WcJQ3Dg?pwd=r9mn
 ```
 
 ## 3. Quick start
