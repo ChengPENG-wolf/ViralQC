@@ -23,7 +23,7 @@ ViralQC is a python library for quality assessment of assembled viral contigs or
 
 ```
 # clone the repository to the local
-git clone [https://github.com/ChengPENG-wolf/ViraLM.git](https://github.com/ChengPENG-wolf/ViralQC.git)
+git clone https://github.com/ChengPENG-wolf/ViralQC.git
 cd ViralQC
 
 # install and activate environment for ViraLM
