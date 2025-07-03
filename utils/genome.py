@@ -1,4 +1,3 @@
-from pyvis.network import Network
 import networkx as nx
 import warnings
 
@@ -56,11 +55,6 @@ class Genome:
             )
         else:
             warnings.warn(f'This genome ({self.id}) has no CDS.')
-
-    def plot(self):
-        nt = Network(width='1600px', height='1600px')
-        nt.from_nx(self.graph)
-        nt.show(f'{self.id}.html')
 
 
 class GenomeStructure:
@@ -332,11 +326,6 @@ class GenomeStructure:
             if not self.genome1.graph.has_edge(a, b):
                 self.joint_graph.add_edge(a, b, color='red')
 
-    def plot_joint_graph(self):
-        nt = Network(width='1600px', height='1600px')
-        nt.from_nx(self.joint_graph)
-        nt.show(f'joint_{self.genome1.id}_{self.genome2.id}.html')
-
     def get_simplified_joint_graph(self):
         self.s_joint_graph = nx.Graph(name=f's_joint_{self.genome1.id}_{self.genome2.id}')
         self.s_joint_graph.add_nodes_from(self.joint_graph.nodes(data=True))
@@ -356,16 +345,6 @@ class GenomeStructure:
                     for j, neighbor2 in enumerate(node_neighbors):
                         if i < j:
                             self.s_joint_graph.add_edge(neighbor1, neighbor2, color='black')
-
-    def plot_simplified_joint_graph(self):
-        nt = Network(width='1600px', height='1600px')
-        nt.from_nx(self.s_joint_graph)
-        nt.show(f's_joint_{self.genome1.id}_{self.genome2.id}.html')
-
-    def plot_translocation(self):
-        nt = Network(width='1600px', height='1600px')
-        nt.from_nx(self.tranloc_graph)
-        nt.show(f'tranloc_{self.genome1.id}_{self.genome2.id}.html')
 
 
 
