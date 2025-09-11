@@ -361,7 +361,7 @@ def write_result(input_pth, output_pth):
     f.write(f'seq_name,seq_length,total_genes,virus_genes,non-virus_genes,virus_length,non-virus_length,region_types,region_coords_bp\n')
 
     for contig_id in result:
-        if len(result[contig_id]) <= 1:
+        if len(result[contig_id]) <= 1 and result[contig_id][0]['predict'] == 'virus':
             continue
         contig_length = contig_len[contig_id]
         total_genes = 0
@@ -412,5 +412,6 @@ def contamination(input, db, output, threads):
     dna_branch(input, db, output)
     branch_aggregattion(output, virus_threshold_p=0.5, host_threshold_p=0.1, virus_threshold_d=0.5)
     write_result(input, output)
+
 
 
