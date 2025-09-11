@@ -249,6 +249,9 @@ def branch_aggregattion(output_pth, virus_threshold_p, host_threshold_p, virus_t
                 else:
                     predict = 'non-virus' if sum(seq[breakpoint[-2]+1:breakpoint[-1]+1]) > sum(seq[breakpoint[-1]+1:]) else 'virus'
                     new_result.append({'start': result[contig_name][breakpoint[-1]+1]['start'], 'end': result[contig_name][-1]['end'], 'predict': predict})
+        else:
+            if np.mean(seq) <= -0.5:
+                new_result.append({'start': result[contig_name][0]['start'], 'end': result[contig_name][-1]['end'], 'predict': 'non-virus'})
         result[contig_name] = new_result
 
 
@@ -412,6 +415,7 @@ def contamination(input, db, output, threads):
     dna_branch(input, db, output)
     branch_aggregattion(output, virus_threshold_p=0.5, host_threshold_p=0.1, virus_threshold_d=0.5)
     write_result(input, output)
+
 
 
 
