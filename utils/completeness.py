@@ -4,6 +4,7 @@ import pickle as pkl
 import subprocess
 from utils.genome import GenomeStructure
 import scipy.stats as stats
+import resource
 import time
 import os
 
@@ -36,11 +37,12 @@ def get_query_length_bin(fasta_pth, out_pth):
 
 
 def protein_prediction_and_alignment(database_pth, fasta_pth, out_pth, thread):
+    print("[1/4] Calling genes with prodigal...")
     temp_pth = os.path.join(out_pth, 'midfolder')
     if not os.path.exists(os.path.join(temp_pth, 'query_protein.faa')):
         cmd = f"python utils/parallel-prodigal-gv.py -t {thread} -q -i {fasta_pth} -a {temp_pth}/query_protein.faa"
         _ = subprocess.check_call(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
+    print("[2/4] Running all against all alignment...")
     # diamond
     cmd = f"diamond blastp -d {database_pth}/reference_protein.dmnd -q {temp_pth}/query_protein.faa -p {thread} -o {temp_pth}/query_protein.blastp --query-cover 50 --subject-cover 50 -k 1000 --ultra-sensitive"
     _ = subprocess.check_call(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -522,20 +524,34 @@ def completeness(input, db, output, threads, bin):
     if not os.path.exists(os.path.join(output, 'midfolder')):
         os.makedirs(os.path.join(output, 'midfolder'))
 
+    print("Running ViralQC completeness estimation...")
     if bin:
         get_query_length_bin(input, output)
         protein_prediction_and_alignment(db, input, output, threads)
         parse_alignment_result_bin(db, output)
         compute_bit_aai_score_bin(db, output)
+        print("[3/4] Computing structural variants...")
         compute_sv_bin(db, output)
+        print("[4/4] Writing results...")
         write_result_bin(db, output)
     else:
         get_query_length_dtr(input, output)
         protein_prediction_and_alignment(db, input, output, threads)
         parse_alignment_result(db, output)
         compute_bit_aai_score(output)
+        print("[3/4] Computing structural variants...")
         compute_sv(db, output)
+        print("[4/4] Writing results...")
         write_result(db, output)
+
+    max_mem_self = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    max_mem_child = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss
+    if platform.system() == "Linux":
+        peak_mem =  (max_mem_self + max_mem_child) / float(1e6)
+    else:
+        peak_mem =  (max_mem_self + max_mem_child) / float(1e9)
+    print(f"Peak mem: {round(peak_mem, 2)} GB")
+
 
 
 
