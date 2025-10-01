@@ -6,6 +6,7 @@ from Bio.Seq import Seq
 import pickle as pkl
 import pandas as pd
 import numpy as np
+import resource
 import re
 
 
@@ -400,7 +401,6 @@ def write_result(input_pth, output_pth):
             decontaminated_records.append(record)
     SeqIO.write(decontaminated_records, f"{output_pth}/extracted_virus.fasta", 'fasta')
 
-
 def contamination(input, db, output, threads):
     if not os.path.exists(output):
         os.makedirs(output)
@@ -408,13 +408,29 @@ def contamination(input, db, output, threads):
     if not os.path.exists(os.path.join(output, 'midfolder')):
         os.makedirs(os.path.join(output, 'midfolder'))
 
+    print("Running ViralQC contamination detection...")
     get_input_length(input, output)
+    print("[1/5] Calling genes with prodigal...")
     predict_protein(input, output, threads)
+    print("[2/5] Running protein branch...")
     protein_branch(db, output)
     parse_protein_result(output)
+    print("[3/5] Running DNA branch...")
     dna_branch(input, db, output)
+    print("[4/5] Aggregating results...")
     branch_aggregattion(output, virus_threshold_p=0.5, host_threshold_p=0.1, virus_threshold_d=0.5)
+    print("[5/5] Aggregating results...")
     write_result(input, output)
+    print("ViralQC contamination detection finished.")
+
+    max_mem_self = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    max_mem_child = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss
+    if platform.system() == "Linux":
+        peak_mem =  (max_mem_self + max_mem_child) / float(1e6)
+    else:
+        peak_mem =  (max_mem_self + max_mem_child) / float(1e9)
+    print(f"Peak mem: {round(peak_mem, 2)} GB")
+
 
 
 
