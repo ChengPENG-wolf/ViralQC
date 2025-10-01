@@ -5,6 +5,7 @@ import subprocess
 from utils.genome import GenomeStructure
 import scipy.stats as stats
 import resource
+import platform
 import time
 import os
 
@@ -551,6 +552,7 @@ def completeness(input, db, output, threads, bin):
     else:
         peak_mem =  (max_mem_self + max_mem_child) / float(1e9)
     print(f"Peak mem: {round(peak_mem, 2)} GB")
+
 
 
 
