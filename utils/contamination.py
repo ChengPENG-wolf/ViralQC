@@ -424,13 +424,7 @@ def contamination(input, db, output, threads):
     write_result(input, output)
     print("ViralQC contamination detection finished.")
 
-    max_mem_self = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-    max_mem_child = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss
-    if platform.system() == "Linux":
-        peak_mem =  (max_mem_self + max_mem_child) / float(1e6)
-    else:
-        peak_mem =  (max_mem_self + max_mem_child) / float(1e9)
-    print(f"Peak mem: {round(peak_mem, 2)} GB")
+
 
 
 
