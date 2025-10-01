@@ -7,6 +7,7 @@ import pickle as pkl
 import pandas as pd
 import numpy as np
 import resource
+import platform
 import re
 
 
@@ -430,6 +431,7 @@ def contamination(input, db, output, threads):
     else:
         peak_mem =  (max_mem_self + max_mem_child) / float(1e9)
     print(f"Peak mem: {round(peak_mem, 2)} GB")
+
 
 
 
