@@ -1,0 +1,13 @@
+conda create -n viralqc python=3.8
+pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu118
+pip install fair-esm
+pip install transformers
+pip install datasets
+pip install einops
+conda install conda-forge::biopython
+conda install conda-forge::gdown
+conda install conda-forge::pandas
+conda install -c bioconda prodigal-gv
+conda install conda-forge::scipy
+conda install bioconda::diamond
+conda install conda-forge::gputil
