@@ -29,6 +29,7 @@ cd ViralQC
 # install and activate environment for ViraLM
 conda env create -f viralqc.yaml -n viralqc
 conda activate viralqc
+# if the above commands fail, try manually installing the environment using the commands in installation.txt
 
 # download and setup the database
 python viralqc.py download_database --db /path/to/db
