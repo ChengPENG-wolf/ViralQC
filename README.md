@@ -26,7 +26,7 @@ ViralQC is a python library for quality assessment of assembled viral contigs or
 git clone https://github.com/ChengPENG-wolf/ViralQC.git
 cd ViralQC
 
-# install and activate environment for ViraLM
+# install and activate environment for ViralQC
 conda env create -f viralqc.yaml -n viralqc
 conda activate viralqc
 # if the above commands fail, try manually installing the environment using the commands in installation.txt
