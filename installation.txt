@@ -1,7 +1,8 @@
-conda create -n viralqc python=3.8
-pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu118
+conda create -n viralqc python==3.8.20
+conda install charset-normalizer==3.4.0
+conda install pytorch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 -c pytorch
 pip install fair-esm
-pip install transformers
+pip install transformers==4.28
 pip install datasets
 pip install einops
 conda install conda-forge::biopython
@@ -11,4 +12,3 @@ conda install -c bioconda prodigal-gv
 conda install conda-forge::scipy
 conda install bioconda::diamond
 conda install conda-forge::gputil
-conda uninstall charset-normalizer
