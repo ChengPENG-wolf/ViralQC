@@ -11,3 +11,4 @@ conda install -c bioconda prodigal-gv
 conda install conda-forge::scipy
 conda install bioconda::diamond
 conda install conda-forge::gputil
+conda uninstall charset-normalizer
