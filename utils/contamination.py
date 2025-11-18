@@ -26,7 +26,11 @@ def predict_protein(input_pth, output_pth, threads):
     temp_pth = os.path.join(output_pth, 'midfolder')
 
     cmd = f"python utils/parallel-prodigal-gv.py -t {threads} -q -i {input_pth} -a {temp_pth}/query_protein.faa"
-    _ = subprocess.check_call(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        result = subprocess.check_call(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except Exception as e:
+        print(f"Error running {cmd}\n{e}")
+        exit()
 
     r = []
     for record in SeqIO.parse(f"{temp_pth}/query_protein.faa", 'fasta'):
@@ -40,10 +44,18 @@ def predict_protein(input_pth, output_pth, threads):
 def protein_branch(db, output_pth):
     temp_pth = os.path.join(output_pth, 'midfolder')
     cmd = f"python utils/extract.py esm2_t33_650M_UR50D {temp_pth}/query_protein_temp.faa {temp_pth} --include mean"
-    _ = subprocess.check_call(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        result = subprocess.check_call(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except Exception as e:
+        print(f"Error running {cmd}\n{e}")
+        exit()
 
     cmd = f"python utils/protein_branch.py --input {temp_pth}/embed.pt --db {db}/protein_model --output {temp_pth}"
-    _ = subprocess.check_call(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        result = subprocess.check_call(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except Exception as e:
+        print(f"Error running {cmd}\n{e}")
+        exit()
 
     os.remove(f"{temp_pth}/query_protein_temp.faa")
 
@@ -84,7 +96,11 @@ def dna_branch(input_pth, db, output_pth):
     SeqIO.write(records, f"{temp_pth}/query_seq_{frag_len}.fasta", 'fasta')
 
     cmd = f"python utils/dna_branch.py --input {temp_pth}/query_seq_{frag_len}.fasta --db {db}/dna_model --output {temp_pth}/dna_branch"
-    _ = subprocess.check_call(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        _ = subprocess.check_call(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except Exception as e:
+        print(f"Error running {cmd}\n{e}")
+        exit()
 
 
 def branch_aggregattion(output_pth, virus_threshold_p, host_threshold_p, virus_threshold_d):
@@ -423,6 +439,7 @@ def contamination(input, db, output, threads):
     print("[5/5] Aggregating results...")
     write_result(input, output)
     print("ViralQC contamination detection finished.")
+
 
 
 
