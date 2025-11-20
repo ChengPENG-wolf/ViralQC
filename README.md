@@ -32,6 +32,7 @@ conda activate viralqc
 # if the above commands fail, try manually installing the environment using the commands in installation.txt
 
 # download and setup the database
+# make sure you are in the ViralQC directory using cd /path/to/ViralQC
 python viralqc.py download_database --db /path/to/db
 # manually download through Baidu Disk
 https://pan.baidu.com/s/19C1EmYJfu3K3jc9WcJQ3Dg?pwd=r9mn
@@ -44,12 +45,14 @@ https://pan.baidu.com/s/19C1EmYJfu3K3jc9WcJQ3Dg?pwd=r9mn
 *Note*: The Contamination Detection module should be run on GPUs.
 
 ```
+# make sure you are in the ViralQC directory using cd /path/to/ViralQC
 python viralqc.py contamination [-i INPUT_FA] [-o OUTPUT_PTH] [-d DATABASE_PATH] [-t THREADS]
 ```
 
 **Run Completeness Estimation:**
 
 ```
+# make sure you are in the ViralQC directory using cd /path/to/ViralQC
 python viralqc.py completeness [-i INPUT_FA] [-o OUTPUT_PTH] [-d DATABASE_PATH] [-t THREADS]
 ```
 
