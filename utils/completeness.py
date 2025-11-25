@@ -427,10 +427,13 @@ def write_result(database_pth, out_pth):
     query_seq_len = pkl.load(open(f'{temp_pth}/query_seq_length.pkl', 'rb'))
     query_dtr = pkl.load(open(f'{temp_pth}/query_dtr.pkl', 'rb'))
     reference_genome_length = pkl.load(open(f'{database_pth}/reference_genome_length.pkl', 'rb'))
-    reference_genome_tax = pkl.load(open(f'{database_pth}/reference_genome_tax.pkl', 'rb'))
     query_seq_info = pkl.load(open(f'{temp_pth}/query_seq_info.pkl', 'rb'))
+    if os.path.exists(f'{database_pth}/reference_genome_tax.pkl'):
+        reference_genome_tax = pkl.load(open(f'{database_pth}/reference_genome_tax.pkl', 'rb'))
+    else:
+        reference_genome_tax = {}
 
-    num_ref = len(reference_genome_tax)
+    num_ref = len(reference_genome_length)
     num_cluster = len(pkl.load(open(f'{database_pth}/reference_protein_cluster2id.pkl', 'rb')))
 
     f = open(f'{out_pth}/completeness_result.csv', 'w')
@@ -463,7 +466,7 @@ def write_result(database_pth, out_pth):
                                              records[0][3])
 
         f.write(f'{query},{query_seq_len[query]},{records[0][1]},{query_dtr[query]},{expect_genome_length},{completeness},{confidence},{sig},{best_alignment},'
-            f'{reference_genome_tax[best_alignment]},{records[0][4]},{records[0][5]["mutation"]},'
+            f'{reference_genome_tax[best_alignment] if best_alignment in reference_genome_tax else "NA"},{records[0][4]},{records[0][5]["mutation"]},'
             f'{records[0][5]["insertion"]},{records[0][5]["deletion"]},{records[0][5]["translocation"]},'
             f'{records[0][5]["duplication"]},{records[0][5]["outlier"]}\n')
 
