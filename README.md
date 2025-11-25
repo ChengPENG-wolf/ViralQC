@@ -37,6 +37,10 @@ python viralqc.py download_database --db /path/to/db
 # manually download through Baidu Disk
 https://pan.baidu.com/s/19C1EmYJfu3K3jc9WcJQ3Dg?pwd=r9mn
 ```
+**Option: build a custom complete genome database**
+```
+python viralqc.py build_custom_database -f path/to/fasta -d path/to/database
+```
 
 ## 3. Quick start
 
