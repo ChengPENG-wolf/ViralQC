@@ -11,4 +11,3 @@ anaconda::datasets
 conda-forge::einops
 conda-forge::pandas
 bioconda::prodigal-gv
-mkl==2024.0
