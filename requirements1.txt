@@ -1,0 +1,13 @@
+conda-forge::gdown
+conda-forge::biopython
+charset-normalizer==3.4.0
+pytorch::pytorch==2.4.1
+pytorch::torchvision==0.19.1
+pytorch::torchaudio==2.4.1
+conda-forge::fair-esm
+anaconda::tokenizers==0.13.2
+main::transformers==4.29.2
+anaconda::datasets
+conda-forge::einops
+conda-forge::pandas
+bioconda::prodigal-gv
