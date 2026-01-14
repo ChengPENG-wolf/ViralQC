@@ -547,6 +547,8 @@ def completeness(input, db, output, threads, bin):
         compute_sv(db, output)
         print("[4/4] Writing results...")
         write_result(db, output)
+    print("ViralQC completeness estimation finished.")
+
 
 
 
