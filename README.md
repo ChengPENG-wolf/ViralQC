@@ -6,8 +6,8 @@
 
 ## Contents
 
-- [1. Introduction](#1-introduction)
-- [2. Setup Environment](#2-setup-environment)
+- [1. Overview](#1-overview)
+- [2. Installatioin](#2-installation)
 - [3. Quick Start](#3-quick-start)
 - [4. Output explanation](#4-output-explanation)
 - [5. Citation](#5-citation)
@@ -15,29 +15,44 @@
 
 ## 1. Overview
 
-ViralQC is a python library for quality assessment of assembled viral contigs or bins. ViralQC contains two primary modules. The contamination detection module identifies and removes non-viral regions within viral contigs. The completeness module evaluates the expected genome length and calculates the completeness of the viral contigs.
+ViralQC is a Python library for quality assessment of assembled viral contigs or bins. ViralQC contains two primary modules. The contamination detection module identifies and removes non-viral regions within viral contigs. The completeness module evaluates the expected genome length and calculates the completeness of the viral contigs.
 
-## 2. Setup environment
+## 2. Installatioin
 
-*Note*: we suggest you install all the packages using [mamba](https://github.com/mamba-org/mamba) or [conda](https://docs.conda.io/en/latest/miniconda.html).
+#### 2.1. Prerequisites
+* [Mamba](https://github.com/mamba-org/mamba)
+* Nvidia GPUs (Contamination module)
+* [CUDA](https://developer.nvidia.com/cuda/toolkit)≥11.8 (Contamination module)
 
+#### 2.2. Setup environment
+
+Clone the repository to the local:
 ```
-# clone the repository to the local
 git clone https://github.com/ChengPENG-wolf/ViralQC.git
 cd ViralQC
-
-# install and activate environment for ViralQC
-conda env create -f viralqc.yaml -n viralqc
-conda activate viralqc
-# if the above commands fail, try manually installing the environment using the commands in installation.txt
-
-# download and setup the database
-# make sure you are in the ViralQC directory using cd /path/to/ViralQC
+```
+Install and activate environment for ViralQC:
+```
+mamba create -n viralqc python==3.8.20 mkl==2024.0
+mamba activate viralqc
+```
+Install dependencies for Contamination module
+```
+mamba install --file=requirements1.txt
+```
+Install dependencies for Completeness module
+```
+mamba install --file=requirements2.txt
+```
+Download and setup the database  
+(Make sure you are in the ViralQC directory using `cd /path/to/ViralQC`)
+```
 python viralqc.py download_database --db /path/to/db
+
 # manually download through Baidu Disk
 https://pan.baidu.com/s/19C1EmYJfu3K3jc9WcJQ3Dg?pwd=r9mn
 ```
-**Option: build a custom complete genome database**
+(Option) Build a custom database for completeness estimation**
 ```
 python viralqc.py build_custom_database -f path/to/fasta -d path/to/database
 ```
