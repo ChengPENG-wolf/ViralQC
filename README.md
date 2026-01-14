@@ -65,15 +65,19 @@ python viralqc.py build_custom_database -f path/to/fasta -d path/to/database
 
 ```
 # make sure you are in the ViralQC directory using cd /path/to/ViralQC
-python viralqc.py contamination [-i INPUT_FA] [-o OUTPUT_PTH] [-d DATABASE_PATH] [-t THREADS]
+python viralqc.py contamination -i test.fa -o output -d db -t 8
 ```
+The program will print `ViralQC contamination detection finished`  
+The `output` folder will contain two files: `contamination_result.csv` and `extracted_virus.fasta`
 
 **Run Completeness Estimation:**
 
 ```
 # make sure you are in the ViralQC directory using cd /path/to/ViralQC
-python viralqc.py completeness [-i INPUT_FA] [-o OUTPUT_PTH] [-d DATABASE_PATH] [-t THREADS]
+python viralqc.py completeness -i test.fa -o output -d db -t 8
 ```
+The program will print `ViralQC completeness estimation finished`  
+The `output` folder will contain one file: `completeness_result.csv`
 
 **Options**
 
