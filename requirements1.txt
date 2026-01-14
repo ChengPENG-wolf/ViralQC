@@ -1,0 +1,6 @@
+conda-forge::gdown
+conda-forge::biopython
+anaconda::networkx
+conda-forge::scipy
+bioconda::prodigal-gv
+bioconda::diamond

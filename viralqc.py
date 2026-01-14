@@ -1,18 +1,15 @@
-import os.path
-
-from utils.download_database import download_database
-from utils.contamination import contamination
-from utils.completeness import completeness
-from utils.custom_database import build_custom_database
+import os
 import argparse
 
 
 def run_download_database(args):
+    from utils.download_database import download_database
     db_path = args.db
     download_database(db_path)
 
 
 def run_build_custom_database(args):
+    from utils.custom_database import build_custom_database
     fasta_file = args.fasta
     database_pth = args.db
     sequence_info_file = args.info
@@ -21,12 +18,16 @@ def run_build_custom_database(args):
 
 
 def run_contamination(args):
+    from utils.contamination import contamination
     input = args.input
     db = args.db
     output = args.output
     threads = args.threads
     contamination(input, db, output, threads)
+
+
 def run_completeness(args):
+    from utils.completeness import completeness
     input = args.input
     db = os.path.join(args.db, 'genome_database')
     output = args.output
