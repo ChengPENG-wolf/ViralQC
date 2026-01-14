@@ -9,7 +9,6 @@ import pathlib
 from tqdm import tqdm
 from torch import nn
 import torch
-import GPUtil
 
 from esm import Alphabet, FastaBatchedDataset, ProteinBertModel, pretrained, MSATransformer
 
