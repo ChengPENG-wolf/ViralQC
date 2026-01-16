@@ -21,7 +21,7 @@ ViralQC is a Python library for quality assessment of assembled viral contigs or
 
 #### 2.1. Prerequisites
 * [Mamba](https://github.com/mamba-org/mamba)
-* Nvidia GPUs (Contamination module)
+* Nvidia GPUs with memory ≥ 16 GB (Contamination module)
 * [CUDA](https://developer.nvidia.com/cuda/toolkit)≥11.8 (Contamination module)
 
 #### 2.2. Setup environment
