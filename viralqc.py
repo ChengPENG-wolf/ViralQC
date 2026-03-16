@@ -5,7 +5,8 @@ import argparse
 def run_download_database(args):
     from utils.download_database import download_database
     db_path = args.db
-    download_database(db_path)
+    name = args.name
+    download_database(db_path, name)
 
 
 def run_build_custom_database(args):
@@ -47,6 +48,7 @@ if __name__ == '__main__':
 
     download_parser = subparsers.add_parser('download_database', help='Download the database of ViralQC.')
     download_parser.add_argument('--db', type=str, help='The path to save the database.')
+    download_parser.add_argument('--name', '-n', type=str, help='meta or refseq')
     download_parser.set_defaults(func=run_download_database)
 
     custom_parser = subparsers.add_parser('build_custom_database', help='Build a custom database for ViralQC.')
