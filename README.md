@@ -47,7 +47,7 @@ mamba install --file=requirements2.txt
 Download and setup the database  
 (Make sure you are in the ViralQC directory using `cd /path/to/ViralQC`)
 ```
-python viralqc.py download_database --db /path/to/db
+python viralqc.py download_database --db /path/to/db -n meta
 
 # manually download through Baidu Disk
 https://pan.baidu.com/s/19C1EmYJfu3K3jc9WcJQ3Dg?pwd=r9mn
