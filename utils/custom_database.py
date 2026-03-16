@@ -79,7 +79,7 @@ def construct_protein_cluster(database_pth):
         protein_info[genome_id][protein_id] = {'start': start, 'end': end, 'strand': strand, 'cluster': representative}
         f.write(f'{genome_id}\t{protein_id}\t{start}\t{end}\t{strand}\t{representative}\n')
 
-    pkl.dump(genome_info, open(f'{database_pth}/temp/reference_genome_info.pkl', 'wb'))
+    pkl.dump(genome_info, open(f'{database_pth}/reference_genome_info.pkl', 'wb'))
     f.close()
 
 
