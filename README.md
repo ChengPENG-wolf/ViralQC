@@ -48,6 +48,9 @@ Download and setup the database
 (Make sure you are in the ViralQC directory using `cd /path/to/ViralQC`)
 ```
 python viralqc.py download_database --db /path/to/db -n meta
+    -n DATABASE_NAME
+                      meta: database combines checkv and latest refseq
+                      refseq: database contains only refseq seqs
 
 # manually download through Baidu Disk
 https://pan.baidu.com/s/19C1EmYJfu3K3jc9WcJQ3Dg?pwd=r9mn
