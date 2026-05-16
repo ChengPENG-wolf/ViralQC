@@ -398,28 +398,30 @@ def compute_sv_bin(database_pth, out_pth):
 
 
 def compute_structural_score(events):
-    a0 = 1
-    a1 = -0.05
-    a2 = -0.1
-    a3 = -0.05
-    a4 = -0.05
-    a5 = -0.05
-    a6 = -0.05
-
-    return (a0 * events['match'] + a1 * events['mutation'] + a2 * events['gapopen'] + a3 * (events['insertion'] + events['deletion'] - events['gapopen']) + a4 * events['translocation'] + a5 * events['duplication'] + a6 * events['outlier'])
-
+    w = {'mutation': 1.0,
+         'indel_ext': 1.5,
+         'translocation': 0.5,
+         'duplication': 0.5,
+         'outlier': 1.5}
+    penalty = (w['mutation'] * events['mutation']
+               + w['indel_ext'] * (events['insertion'] + events['deletion'])
+               + w['translocation'] * events['translocation']
+               + w['duplication'] * events['duplication']
+               + w['outlier'] * events['outlier'])
+    return events['match'] / (events['match'] + penalty + 1e-9)
 
 def compute_structural_score_bin(events):
-    a0 = 1
-    a1 = -0.05
-    a2 = -0.1
-    a3 = -0.05
-    a4 = 0
-    a5 = -0.05
-    a6 = -0.05
-
-    return (a0 * events['match'] + a1 * events['mutation'] + a2 * events['gapopen'] + a3 * (events['insertion'] + events['deletion'] - events['gapopen']) + a4 * events['translocation'] + a5 * events['duplication'] + a6 * events['outlier'])
-
+    w = {
+        'mutation': 1.0,
+        'indel': 1.0,
+        'duplication': 0.5,
+        'outlier': 1.5,
+    }
+    penalty = (w['mutation'] * events['mutation']
+               + w['indel'] * (events['insertion'] + events['deletion'])
+               + w['duplication'] * events['duplication']
+               + w['outlier'] * events['outlier'])
+    return events['match'] / (events['match'] + penalty + 1e-9)
 
 def write_result(database_pth, out_pth):
     temp_pth = os.path.join(out_pth, 'midfolder')
