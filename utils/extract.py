@@ -61,6 +61,94 @@ def create_parser():
     return parser
 
 
+def extract_embeddings(
+    model_location,
+    fasta_file,
+    output_dir,
+    toks_per_batch=4096,
+    repr_layers=(-1,),
+    include=("mean",),
+    truncation_seq_length=1022,
+    nogpu=False,
+):
+    fasta_file = pathlib.Path(fasta_file)
+    output_dir = pathlib.Path(output_dir)
+    repr_layers = list(repr_layers)
+    include = list(include)
+
+    model, alphabet = pretrained.load_model_and_alphabet(model_location)
+    model.eval()
+    print(model)
+
+    if isinstance(model, MSATransformer):
+        raise ValueError(
+            "This script currently does not handle models with MSA input (MSA Transformer)."
+        )
+
+    if torch.cuda.is_available() and not nogpu:
+        model = model.cuda()
+        print("Transferred model to GPU")
+        if torch.cuda.device_count() > 1:
+            print(f'\nRunning on {torch.cuda.device_count()} GPUs.')
+            model = nn.DataParallel(model)
+
+    dataset = FastaBatchedDataset.from_file(fasta_file)
+    batches = dataset.get_batch_indices(toks_per_batch, extra_toks_per_seq=1)
+    data_loader = torch.utils.data.DataLoader(
+        dataset,
+        collate_fn=alphabet.get_batch_converter(truncation_seq_length),
+        batch_sampler=batches,
+    )
+    print(f"Read {fasta_file} with {len(dataset)} sequences")
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    return_contacts = "contacts" in include
+
+    assert all(-(model.num_layers + 1) <= i <= model.num_layers for i in repr_layers)
+    repr_layers = [(i + model.num_layers + 1) % (model.num_layers + 1) for i in repr_layers]
+
+    result = []
+    output_file = output_dir / "embed.pt"
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+
+    with torch.no_grad():
+        pbar = tqdm(data_loader)
+        for batch_idx, (labels, strs, toks) in enumerate(pbar):
+            if torch.cuda.is_available() and not nogpu:
+                toks = toks.to(device="cuda", non_blocking=True)
+
+            out = model(toks, repr_layers=repr_layers, return_contacts=return_contacts)
+
+            representations = {
+                layer: t.to(device="cpu") for layer, t in out["representations"].items()
+            }
+            if return_contacts:
+                contacts = out["contacts"].to(device="cpu")
+
+            for i, label in enumerate(labels):
+                truncate_len = min(truncation_seq_length, len(strs[i]))
+
+                if "mean" in include:
+                    embed = {
+                        layer: t[i, 1 : truncate_len + 1].mean(0).clone()
+                        for layer, t in representations.items()
+                    }
+                    result.append([label, embed[list(embed.keys())[0]]])
+                if "per_tok" in include:
+                    embed = {
+                        layer: t[i, 1 : truncate_len + 1].clone()
+                        for layer, t in representations.items()
+                    }
+                    result.append([label, embed])
+
+            if batch_idx % 1 == 0:
+                pbar.set_description(f'Processing {batch_idx}')
+
+    torch.save(result, output_file)
+    print(len(result))
+    return result
+
+
 def run(args):
     model, alphabet = pretrained.load_model_and_alphabet(args.model_location)
     model.eval()

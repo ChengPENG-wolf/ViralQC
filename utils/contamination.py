@@ -42,13 +42,14 @@ def predict_protein(input_pth, output_pth, threads):
 
 
 def protein_branch(db, output_pth):
-    temp_pth = os.path.join(output_pth, 'midfolder')
-    cmd = f"python utils/extract.py esm2_t33_650M_UR50D {temp_pth}/query_protein_temp.faa {temp_pth} --include mean"
-    try:
-        result = subprocess.check_call(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    except Exception as e:
-        print(f"Error running {cmd}\n{e}")
-        exit()
+    temp_pth = os.path.join(output_pth, 'midfolder')   
+    from utils.extract import extract_embeddings
+    result = extract_embeddings(
+        model_location="esm2_t33_650M_UR50D",
+        fasta_file=f"{temp_pth}/query_protein_temp.faa",
+        output_dir=temp_pth,
+    )
+
 
     cmd = f"python utils/protein_branch.py --input {temp_pth}/embed.pt --db {db}/protein_model --output {temp_pth}"
     try:
